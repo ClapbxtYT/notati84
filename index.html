@@ -20,7 +20,6 @@
         outline: none !important;
         margin-left: auto;
         margin-right: auto;
-        zoom: 91%;
       }
       #main_div {
         padding: 0px;
@@ -38,7 +37,15 @@
     <script id="h84statej" type="application/json" data-url="https://mn.testnav.com/client/texasinstruments/bin/No_AppsCE.h84statej"></script>
     <script id="ti84faceplate" type="application/json" data-url="https://mn.testnav.com/client/texasinstruments/images/TI84CE_touch.svg"></script>
   </head>
-  
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FBCZ4JS4R3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-FBCZ4JS4R3');
+  </script>
   <body>
     <div id="overlay">
       <div class="dropdown" onmouseenter="bg_drop()" onmouseleave="bg_drop()">
@@ -47,6 +54,8 @@
           <a href="#" onclick="bg_1()">Rainy Window</a>
           <a href="#" onclick="bg_2()">Snowy Forest</a>
           <a href="#" onclick="bg_3()">Cragged Cliffs</a>
+          <a href="#" onclick="bg_4()">Star Wars</a>
+          <a href="#" onclick="bg_5()">Autumn Leaves</a>
         </div>
       </div>
     </div>
@@ -57,21 +66,32 @@
 
     <script>
       
+      
+
       const from_id = (id) => document.getElementById(id);
       const h84statej = from_id("h84statej");
       const ti84faceplate = from_id("ti84faceplate");
+      const overlay = from_id("overlay")
       const calc_div = from_id("calculatorDiv");
       const main_div = from_id("main_div");
-      
+
       const rain = "backgrounds/rain.mp4";
       const snow_forest = "backgrounds/snow_forest.mp4";
-      const cliffs = "backgrounds/cliffs.mp4"
+      const cliffs = "backgrounds/cliffs.mp4";
+      const star_wars = "backgrounds/star_wars.mp4";
+      const autumn = "backgrounds/autumn_leaves.mp4";
 
       if (!localStorage.bg)
       {
         localStorage.bg = rain;
       }
+      overlay.style.zoom = (window.innerWidth / 10) + "%";
+      calc_div.style.zoom = (window.innerHeight / 6.14285714286) + "%";
 
+      window.addEventListener('resize', function() {
+        calc_div.style.zoom = (window.innerHeight / 6.14285714286) + "%";
+        overlay.style.zoom = (window.innerWidth / 10) + "%";
+      });
 
       //proxy the xmlhttprequest open to remove the hash from the url
       XMLHttpRequest.prototype.open = new Proxy(XMLHttpRequest.prototype.open, {
@@ -108,6 +128,20 @@
         var videocontainer = document.getElementById('bg-video');
         document.getElementById("bg-source").src = cliffs;
         localStorage.bg = cliffs;
+        videocontainer.load();
+      }
+
+      function bg_4() {
+        var videocontainer = document.getElementById('bg-video');
+        document.getElementById("bg-source").src = star_wars;
+        localStorage.bg = star_wars;
+        videocontainer.load();
+      }
+
+      function bg_5() {
+        var videocontainer = document.getElementById('bg-video');
+        document.getElementById("bg-source").src = autumn;
+        localStorage.bg = autumn;
         videocontainer.load();
       }
 
