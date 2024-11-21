@@ -1,14 +1,14 @@
 <!DOCTYPE html><html lang="en"><head>
-    <title>Not a TI-84 Plus Ce</title>
+    <title>FP TI-84+ CE</title>
     <meta name="description" content="This is a standalone version of the official TI-84 Plus CE HTML5 emulator from Texas Instruments.">
-    <meta property="og:title" content="Not a TI-84 Plus Ce">
+    <meta property="og:title" content="FP TI-84+ Ce">
     <meta property="og:description" content="This is a standalone version of the official TI-84 Plus CE HTML5 emulator from Texas Instruments.">
     <meta property="og:type" content="website">
     <meta name="theme-color" content="#ffffff">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="images/uQKpquGAAJcX.png">
-    <link rel="stylesheet" type="text/css" href="css/bbTC9ggcDsfU.css">
+    <link rel="icon" type="image/png" href="images/fp-ti-logo.png">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
 
     <style>
       body {
@@ -20,7 +20,7 @@
         outline: none !important;
         margin-left: auto;
         margin-right: auto;
-        zoom: 94%;
+        zoom: 91%;
       }
       #main_div {
         padding: 0px;
@@ -38,15 +38,40 @@
     <script id="h84statej" type="application/json" data-url="https://mn.testnav.com/client/texasinstruments/bin/No_AppsCE.h84statej"></script>
     <script id="ti84faceplate" type="application/json" data-url="https://mn.testnav.com/client/texasinstruments/images/TI84CE_touch.svg"></script>
   </head>
+  
   <body>
-    <div id="calculatorDiv"></div>
+    <div id="overlay">
+      <div class="dropdown" onmouseenter="bg_drop()" onmouseleave="bg_drop()">
+        <button class="dropbtn">Backgrounds</button>
+        <div id="myDropdown" class="dropdown-content">
+          <a href="#" onclick="bg_1()">Rainy Window</a>
+          <a href="#" onclick="bg_2()">Snowy Forest</a>
+          <a href="#" onclick="bg_3()">Cragged Cliffs</a>
+        </div>
+      </div>
+    </div>
+    <div id="calculatorDiv" style="margin-top: 5px; margin-bottom: 5px;"></div>
+    <video id="bg-video" autoplay muted loop type="video/mp4">
+      <source id="bg-source" type="video/mp4">
+    </video>
 
     <script>
+      
       const from_id = (id) => document.getElementById(id);
       const h84statej = from_id("h84statej");
       const ti84faceplate = from_id("ti84faceplate");
       const calc_div = from_id("calculatorDiv");
       const main_div = from_id("main_div");
+      
+      const rain = "backgrounds/rain.mp4";
+      const snow_forest = "backgrounds/snow_forest.mp4";
+      const cliffs = "backgrounds/cliffs.mp4"
+
+      if (!localStorage.bg)
+      {
+        localStorage.bg = rain;
+      }
+
 
       //proxy the xmlhttprequest open to remove the hash from the url
       XMLHttpRequest.prototype.open = new Proxy(XMLHttpRequest.prototype.open, {
@@ -57,6 +82,36 @@
           Reflect.apply(target, thisArg, args);
         },
       })
+
+
+      document.getElementById("bg-source").src = localStorage.bg;
+
+      function bg_drop() {
+        document.getElementById("myDropdown").classList.toggle("show");
+      }
+
+      function bg_1() {
+        var videocontainer = document.getElementById('bg-video');
+        document.getElementById("bg-source").src = rain;
+        localStorage.bg = rain;
+        videocontainer.load();
+      }
+
+      function bg_2() {
+        var videocontainer = document.getElementById('bg-video');
+        document.getElementById("bg-source").src = snow_forest;
+        localStorage.bg = snow_forest;
+        videocontainer.load();
+      }
+
+      function bg_3() {
+        var videocontainer = document.getElementById('bg-video');
+        document.getElementById("bg-source").src = cliffs;
+        localStorage.bg = cliffs;
+        videocontainer.load();
+      }
+
+    
 
       function create_blob(string) {
         if (!string) return null;
